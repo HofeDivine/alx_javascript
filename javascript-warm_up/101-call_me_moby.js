@@ -1,3 +1,8 @@
-exports.multiply = function(x,theFunction){
-return x*theFunctiontheFunction
-};
+function executeXTimes(x, theFunction) {
+    for (let i = 0; i < x; i++) {
+      theFunction();
+    }
+  }
+  
+  module.exports = executeXTimes;
+  

@@ -1,6 +1,5 @@
 function addMeMayBe(number,theFunction){
-   for(i=0;i<number;i++){
-    theFunction();
-   } 
+    const incrementedNumber = number + 1;
+    theFunction(incrementedNumber);
 }
 module.exports.addMeMayBe=addMeMayBe

@@ -1,5 +1,5 @@
-function addMeMayBe(number,theFunction){
+function addMeMaybe(number,theFunction){
     const incrementedNumber = number + 1;
     theFunction(incrementedNumber);
 }
-module.exports.addMeMayBe=addMeMayBe
+module.exports.addMeMaybe=addMeMayBe

@@ -1,9 +1,13 @@
 const request = require('request');
 
 function countCompletedTasks(apiUrl) {
-    request.get(apiUrl, { json: true }, ( response) => {
+    request.get(apiUrl, { json: true }, ( response, body) => {
         
 
+        if (response.statusCode !== 200) {
+            console.error('Error:', body);
+            return;
+        }
 
         const completedTasksByUser = {};
 
@@ -25,7 +29,7 @@ function countCompletedTasks(apiUrl) {
 
 const apiUrl = process.argv[2];
 if (!apiUrl) {
- 
+    console.error('Usage: node script.js <API_URL>');
     process.exit(1);
 }
 

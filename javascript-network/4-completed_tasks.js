@@ -1,10 +1,13 @@
 const request = require('request');
 
 function countCompletedTasks(apiUrl) {
-    request.get(apiUrl, { json: true }, ( response, body) => {
-        
+    request.get(apiUrl, { json: true }, (error, response, body) => {
+        if (error) {
+            console.error('Error:', error);
+            return;
+        }
 
-        if (response.statusCode !== 200) {
+        if (response && response.statusCode !== 200) {
             console.error('Error:', body);
             return;
         }
@@ -21,9 +24,7 @@ function countCompletedTasks(apiUrl) {
             }
         });
 
-        Object.keys(completedTasksByUser).forEach(userId => {
-            console.log(`User ${userId}: ${completedTasksByUser[userId]} completed tasks`);
-        });
+        console.log(completedTasksByUser);
     });
 }
 

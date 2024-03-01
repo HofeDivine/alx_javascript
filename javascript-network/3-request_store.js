@@ -10,9 +10,7 @@ function saveWebpage(url, filePath) {
         fs.writeFile(filePath, body, { encoding: 'utf8' }, (err) => {
             if (err) {
                 console.error('Error:', err);
-            } else {
-                console.log(`Webpage content saved to ${filePath}`);
-            }
+            } 
         });
     });
 }

@@ -1,13 +1,9 @@
 const request = require('request');
 
 function countCompletedTasks(apiUrl) {
-    request.get(apiUrl, { json: true }, ( response, body) => {
+    request.get(apiUrl, { json: true }, ( response) => {
         
 
-        if (response.statusCode !== 200) {
-            console.error('Error:', body);
-            return;
-        }
 
         const completedTasksByUser = {};
 

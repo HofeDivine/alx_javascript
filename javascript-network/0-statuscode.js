@@ -1,6 +1,6 @@
 const request =require('request')
  
-function statusCode(url){
+function getStatus(url){
     request.get(url,(error,response)=>{
     if (error) {
         console.error('Error:', error);

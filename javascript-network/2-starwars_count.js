@@ -24,7 +24,7 @@ function countMoviesWithCharacter(apiUrl, characterId) {
             if (body.next) {
                 fetchPage(body.next); 
             } else {
-                console.log(`Number of movies where Wedge Antilles is present: ${count}`);
+                console.log(`${count}`);
             }
         });
     }

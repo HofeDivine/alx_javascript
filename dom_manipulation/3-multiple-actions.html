@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Creating and Removing Elements</title>
+</head>
+<body>
+  <div id="container"></div>
+  
+  <script>
+    var container = document.getElementById("container");
+    var paragraph = null; 
+    
+    function toggleParagraph() {
+      if (paragraph) {
+        
+        container.removeChild(paragraph);
+        paragraph = null; 
+      } else {
+
+        paragraph = document.createElement("p");
+    
+        paragraph.textContent = "This is a dynamically created paragraph.";
+        container.appendChild(paragraph);
+      }
+    }
+    var button = document.createElement("button");
+
+    button.textContent = "Toggle Paragraph";
+    button.addEventListener("click", toggleParagraph);
+    container.appendChild(button);
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Management</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
+    .container {
+        text-align: center;
+    }
+    input[type="text"] {
+        padding: 8px;
+        margin: 5px;
+        width: 200px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    input[type="button"] {
+        padding: 8px 20px;
+        margin: 5px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    p {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <input type="text" id="firstname" placeholder="First Name">
+    <br>
+    <input type="text" id="email" placeholder="Email">
+    <br>
+    <input type="button" value="Log me in" onclick="setCookies()">
+    <br>
+    <input type="button" value="Show the cookies" onclick="showCookies()">
+    <p id="cookies"></p>
+</div>
+
+<script>
+    function setCookies() {
+        var firstnameValue = document.getElementById('firstname').value;
+        var emailValue = document.getElementById('email').value;
+        document.cookie = "firstname=" + firstnameValue + "; path=/";
+        document.cookie = "email=" + emailValue + "; path=/";
+        alert("Cookies set successfully!");
+    }
+
+    function showCookies() {
+        var cookiesParagraph = document.getElementById('cookies');
+        var firstnameCookie = getCookie('firstname');
+        var emailCookie = getCookie('email');
+        cookiesParagraph.innerHTML = "Cookies: First Name - " + firstnameCookie + ", Email - " + emailCookie;
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var cookiesArray = document.cookie.split(';');
+        for(var i = 0; i < cookiesArray.length; i++) {
+            var cookie = cookiesArray[i];
+            while (cookie.charAt(0) == ' ') {
+                cookie = cookie.substring(1, cookie.length);
+            }
+            if (cookie.indexOf(nameEQ) == 0) {
+                return cookie.substring(nameEQ.length, cookie.length);
+            }
+        }
+        return null;
+    }
+</script>
+</body>
+</html>

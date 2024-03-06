@@ -1,4 +1,3 @@
-// dynamic-form.js
 
 document.getElementById("dynamicForm").addEventListener("submit", function(event) {
     event.preventDefault();

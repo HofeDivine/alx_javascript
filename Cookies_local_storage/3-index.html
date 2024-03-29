@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Cookies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .login,
+        .cookies {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .cookieform {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .cookieform input[type="name"],
+        .cookieform input[type="email"],
+        .cookieform button {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .cookieform button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .welcome-message {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .logout {
+            font-style: italic;
+            margin-left: 10px;
+            color: #007bff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="welcome-message">
+        <!-- Initially hidden, will be shown after successful login -->
+        <!-- Placeholder for Welcome message -->
+    </div>
+
+    <section class="login">
+        <h2>Login to the website</h2>
+        <div class="cookieform" id="login-form" style="display: none;">
+            <input type="name" id="firstname" placeholder="Firstname">
+            <input type="email" id="email" placeholder="Email">
+            <button onclick="setCookies()">Log me in</button>
+        </div>
+    </section>
+
+    <section class="cookies">
+        <h1>Cookies</h1>
+        <button onclick="showCookies()">Show the cookies</button>
+    </section>
+
+    <script>
+        function setCookies() {
+            const firstname = document.getElementById('firstname').value;
+            const email = document.getElementById('email').value;
+
+            // Get current date and add 10 days to it
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 10);
+
+            document.cookie = `Firstname=${firstname}; expires=${expirationDate.toUTCString()}`;
+            document.cookie = `Email=${email}; expires=${expirationDate.toUTCString()}`;
+
+            showWelcomeMessageOrForm();
+        }
+
+        function showCookies() {
+            const firstnameCookie = getCookie('Firstname');
+            const emailCookie = getCookie('Email');
+
+            const paragraph = document.createElement('p');
+            paragraph.textContent = `Email: ${emailCookie} - Firstname: ${firstnameCookie}`;
+            document.body.appendChild(paragraph);
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const cookiesArray = document.cookie.split(';');
+            for (let i = 0; i < cookiesArray.length; i++) {
+                let cookie = cookiesArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return cookie.substring(nameEQ.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        function showForm() {
+            const form = document.getElementById('login-form');
+            form.style.display = 'flex';
+        }
+
+        function hideForm() {
+            const form = document.getElementById('login-form');
+            form.style.display = 'none';
+        }
+
+        function deleteCookiesAndShowForm() {
+            document.cookie = 'Firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            document.cookie = 'Email=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            showForm();
+        }
+
+        function showWelcomeMessageOrForm() {
+            const firstnameCookie = getCookie('Firstname');
+            if (firstnameCookie) {
+                const welcomeMessage = document.createElement('h1');
+                welcomeMessage.textContent = `Welcome ${firstnameCookie}`;
+                document.body.innerHTML = ''; 
+                document.body.appendChild(welcomeMessage);
+
+                const logoutLink = document.createElement('a');
+                logoutLink.href = '#';
+                logoutLink.textContent = '(logout)';
+                logoutLink.classList.add('logout');
+                logoutLink.onclick = function () {
+                    deleteCookiesAndShowForm();
+                    welcomeMessage.remove();
+                    logoutLink.remove();
+                    showForm();
+                };
+
+                document.body.appendChild(logoutLink);
+            } else {
+                hideForm();
+            }
+        }
+    </script>
+
+</body>
+
+</html>

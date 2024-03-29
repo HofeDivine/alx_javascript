@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Cart System</title>
+</head>
+
+<body>
+    <script>
+        // Check if session storage is available
+        if (typeof (sessionStorage) === 'undefined') {
+            alert('Sorry, your browser does not support session storage. Try again with a better one.');
+        } else {
+            // Array of available items
+            const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+            // Function to get cart from session storage
+            function getCartFromStorage() {
+                const cartString = sessionStorage.getItem('cart');
+                return cartString ? JSON.parse(cartString) : {};
+            }
+
+            // Function to add item to cart
+            function addItemToCart(item) {
+                const cart = getCartFromStorage();
+                cart[item] = cart[item] ? cart[item] + 1 : 1;
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                displayCart();
+            }
+
+            // Function to remove item from cart
+            function removeItemFromCart(item) {
+                const cart = getCartFromStorage();
+                delete cart[item];
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                displayCart();
+            }
+
+            // Function to clear cart
+            function clearCart() {
+                sessionStorage.removeItem('cart');
+                displayCart();
+            }
+
+            // Function to create store
+            function createStore() {
+                const h2 = document.createElement('h2');
+                h2.textContent = 'Available products:';
+                document.body.appendChild(h2);
+
+                const ul = document.createElement('ul');
+                availableItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    li.addEventListener('click', () => {
+                        addItemToCart(item);
+                    });
+                    ul.appendChild(li);
+                });
+                document.body.appendChild(ul);
+            }
+
+            // Function to display cart
+            function displayCart() {
+                const cart = getCartFromStorage();
+                const h2 = document.createElement('h2');
+                h2.textContent = 'Your cart:';
+                document.body.appendChild(h2);
+
+                const div = document.createElement('div');
+                document.body.appendChild(div);
+
+                if (Object.keys(cart).length === 0) {
+                    const p = document.createElement('p');
+                    p.textContent = 'Your cart is empty';
+                    div.appendChild(p);
+                } else {
+                    const ul = document.createElement('ul');
+                    Object.entries(cart).forEach(([item, quantity]) => {
+                        const li = document.createElement('li');
+                        li.textContent = `${item} x ${quantity} `;
+                        const removeBtn = document.createElement('button');
+                        removeBtn.textContent = 'Remove';
+                        removeBtn.addEventListener('click', () => {
+                            removeItemFromCart(item);
+                        });
+                        li.appendChild(removeBtn);
+                        ul.appendChild(li);
+                    });
+                    div.appendChild(ul);
+                }
+
+                const clearBtn = document.createElement('button');
+                clearBtn.textContent = 'Clear my cart';
+                clearBtn.addEventListener('click', () => {
+                    clearCart();
+                });
+                div.insertBefore(clearBtn, div.firstChild);
+            }
+
+            // Call functions to create store and display cart
+            createStore();
+            displayCart();
+        }
+    </script>
+</body>
+
+</html>

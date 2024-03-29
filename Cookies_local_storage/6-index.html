@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+
+<body>
+    <script>
+        // Check if session storage is available
+        if (typeof (sessionStorage) === 'undefined') {
+            alert('Sorry, your browser does not support session storage. Try again with a better one.');
+        } else {
+            // Array of available items
+            const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+            // Function to add item to cart
+            function addItemToCart(item) {
+                sessionStorage.setItem(item, 'true');
+            }
+
+            // Function to create store
+            function createStore() {
+                const ul = document.createElement('ul');
+                document.body.appendChild(ul);
+
+                availableItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    li.addEventListener('click', () => {
+                        addItemToCart(item);
+                    });
+                    ul.appendChild(li);
+                });
+            }
+
+            // Function to display cart
+            function displayCart() {
+                const keys = Object.keys(sessionStorage);
+                const itemCount = keys.length;
+
+                if (itemCount > 0) {
+                    const p = document.createElement('p');
+                    p.textContent = `You previously had ${itemCount} items in your cart.`;
+                    document.body.appendChild(p);
+                }
+            }
+
+            // Call functions to create store and display cart
+            createStore();
+            displayCart();
+        }
+    </script>
+</body>
+
+</html>
